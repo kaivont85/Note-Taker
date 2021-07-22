@@ -1,7 +1,6 @@
 // dependencies
 const path = require("path");
-const express = require("express");
-const router = express.Router()
+const router = require("express").Router();
 
 
 
@@ -9,7 +8,7 @@ const router = express.Router()
     res.sendFile(path.join(__dirname, "../public/notes.html"));
   });
   
-  router.get("*", (req, res) => {
+  router.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 
