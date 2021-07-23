@@ -1,14 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const { callbackify } = require("util");
+const util = require("util");
+
+const readIt = util.promisify(fs.readFile);
+const writeIt = util.promisify(fs.writeFile)
 
 class Helper {
   readNotes() {
-    fs.readFileSync(path.join(__dirname, "./db.json"), function (e, notes) {
-      let allTheNotes = readNotes.toString();
-      let allNotesSplit = allTheNotes.split("");
-    });
-    callBack();
+   return readIt("db/db.json", "utf8")
+  }
+
+  writeNotes(notes) {
+    console.log("hit", notes)
+    return writeIt("db/db.json", JSON.stringify(notes))
   }
 
   getAllNotes() {
@@ -19,9 +23,32 @@ class Helper {
       } catch (e) {
         notes = [];
       }
-      console.log(notes);
+
       return notes;
     });
+  }
+
+  singleNote(note) {
+    const {title, text} = note
+
+    if(!title || !text) {
+      alert("Please add title and text")
+    }
+
+    const newId = Math.floor(Math.random() * 100000000)
+    const newNote = {title, text, id:newId }
+    console.log("not", note)
+   return this.getAllNotes()
+   .then((notes) => {
+    
+     [...notes, newNote]
+     console.log("Hi", newNote) 
+   }) 
+   .then((addedNotes) => {
+     this.writeNotes(addedNotes)
+   }).then(() => {
+     newNote
+   })
   }
 }
 module.exports = new Helper();

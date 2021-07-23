@@ -1,7 +1,5 @@
 
-// const uuid = require("uuid");
 const router = require("express").Router();
-// const db = require("../db/db.json");
 const Helper = require("../db/helper")
 
 
@@ -18,20 +16,18 @@ const Helper = require("../db/helper")
 
 
   
-  // router.post("/api/notes", (req, res) => {
-    
-  //   const createNote = req.body;
-  //   fs.readFile("./db/db.json", "utf8", (err, data) => {
-  //     if (err) throw err;
-      
-  //     const notes = JSON.parse(data);
-  //     createNote.id = uuid.v4();  
-  //     notes.push(createNote);
-  //     fs.writeFile("./db/db.json", JSON.stringify(notes), "utf8", (err, data) => {
-  //       return res.json(createNote)
-  //     })
-  //   })
-  // });
+  router.post("/notes", (req, res) => {
+    Helper.singleNote(req.body)
+    .then((note) => {
+      console.log(note)
+      res.json(note)
+    })
+
+    .catch((e) => {
+      res.status(500).json(e)
+    })
+   
+  });
 
 
   // //deleting notes
