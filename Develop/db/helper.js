@@ -1,6 +1,6 @@
 const fs = require("fs");
-const path = require("path");
 const util = require("util");
+
 
 const readIt = util.promisify(fs.readFile);
 const writeIt = util.promisify(fs.writeFile)
@@ -11,22 +11,22 @@ class Helper {
   }
 
   writeNotes(notes) {
-    console.log("hit", notes)
     return writeIt("db/db.json", JSON.stringify(notes))
   }
 
-  getAllNotes() {
-    return this.readNotes().then((allTheNotes) => {
-      let notes;
+  getNotes() {
+    return this.readNotes().then((notes) => {
+      let allTheNotes;
       try {
-        notes = [].concat(JSON.parse(allTheNotes));
+        allTheNotes = [].concat(JSON.parse(notes));
       } catch (e) {
-        notes = [];
+        allTheNotes = [];
       }
 
-      return notes;
+      return allTheNotes;
     });
-  }
+  } 
+
 
   singleNote(note) {
     const {title, text} = note
@@ -36,19 +36,42 @@ class Helper {
     }
 
     const newId = Math.floor(Math.random() * 100000000)
-    const newNote = {title, text, id:newId }
-    console.log("not", note)
-   return this.getAllNotes()
-   .then((notes) => {
+    const singleNote = {title, text, id:newId }
+   return this.getNotes()
+   .then((allTheNotes) => 
     
-     [...notes, newNote]
-     console.log("Hi", newNote) 
-   }) 
-   .then((addedNotes) => {
+     [...allTheNotes, singleNote]
+   ) 
+   .then((addedNotes) => 
      this.writeNotes(addedNotes)
-   }).then(() => {
-     newNote
-   })
+   ).then(() => 
+   singleNote
+   ); 
   }
+
+  removeNote(id) {
+    return this.getNotes() 
+    .then((notes) => {
+     
+      let nNotes = []
+   for (let index = 0; index < notes.length; index++) {
+    console.log(parseInt(notes[index].id), parseInt(id))
+    if(parseInt(notes[index].id) !== parseInt(id)) {
+      console.log("hit")
+      nNotes.push(notes[index])
+    }
+   }    
+   console.log(nNotes)
+   return this.writeNotes(nNotes)
+      // .then((noteList) => {
+      //   console.log(noteList)
+      //  return this.writeNotes(noteList)
+      // })
+      
+  }) 
 }
+
+
+} 
+
 module.exports = new Helper();
