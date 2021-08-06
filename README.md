@@ -5,7 +5,7 @@ Visit the Deployed Site offered by Heroku:
 
 # Description
 
-This is a simple note taker/to-do-list. You have add notes or lists, save them, edit them and delete them when finished. 
+This is a simple note taker/to-do-list. You have add notes or lists, save them and delete them when finished. 
 
 # How To Use
 
