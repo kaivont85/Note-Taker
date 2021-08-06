@@ -1,6 +1,8 @@
 # Note-Taker
 
-Visit the Deployed Site offered by Heroku: 
+Visit the Deployed Site offered by Heroku:  
+
+https://protected-cliffs-76829.herokuapp.com/
 
 
 # Description
